@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test Html</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+       .header{
+           width : 100%;
+           height: 3em;
+           text-align: center;
+           border-bottom: 6px double slategrey; 
+       } 
+       .header>*{
+            display:inline-block;
+            transform:translate(0,50%);
+       }
+       .header>span{
+            position:absolute;
+       }
+       .header>.back{
+            left:0.5em;
+       }
+       .header>.back>img{
+            width: calc(height);
+            height: 1.5em;
+       }
+       .header>.next{
+            right:1em;
+       }
+       .footer{
+           width: 100%;
+           position: fixed;
+           left: 0;
+           bottom: 0;
+           text-align: center;
+           border-top: 6px double slategrey; 
+       }
+       .footer>ul{
+           display:inline-block;
+           width: 100%;
+           margin-left: 2px
+       }
+       .footer>ul>li{
+            list-style: none;
+            float: left;
+            height: 4.5em;
+            width: 24.3%;
+       }
+       .footer>ul>li>img{
+            width: calc(height);
+            height: 80%;
+            transform: translate(0,10%)
+       }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span class="back"><img src="../../public/img/main/icon/back0.png"></span>
+        <h3>Welcome</h3>
+    </div>  
+    <div class="footer">
+        <ul>
+            <li><img src="../../public/img/main/home_unsel.png"></li>
+            <li><img src="../../public/img/main/fenlei0101.png"></li>
+            <li><img src="../../public/img/main/buycar_unsel.png"></li>
+            <li><img src="../../public/img/main/my_unsel.png"></li>
+        </ul>
+    </div>
+</body>
+</html>
