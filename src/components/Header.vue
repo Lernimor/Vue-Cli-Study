@@ -1,13 +1,26 @@
 <template>
    <div class="header">
-        <span class="back"><img src="../../public/img/main/icon/back0.png"></span>
+        <span class="back" @click="back" v-show="!(this.$route.path == '/' 
+                            || this.$route.path == '/other' 
+                            || this.$route.path == '/buycar' 
+                            || this.$route.path == '/mypage')">
+            <img src="../../public/img/main/icon/back0.png"></span>
         <h3>Welcome</h3>
     </div>
 </template>
 
 <script>
     export default {
-        
+        methods: {
+            back(){
+               if( this.to === undefined ){
+                   this.$router.go(-1);
+               }
+               else{
+                   this.$router.push({path:'/home'});
+               }
+            }
+        },
     }
 </script>
 
