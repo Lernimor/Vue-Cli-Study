@@ -1,17 +1,22 @@
 <template>
      <div class="footer">
         <ul>
-            <li><img src="../../public/img/main/home_unsel.png"></li>
-            <li><img src="../../public/img/main/fenlei0101.png"></li>
-            <li><img src="../../public/img/main/buycar_unsel.png"></li>
-            <li><img src="../../public/img/main/my_unsel.png"></li>
+            <li v-on:click="changeType($event)"><img src="../../public/img/main/home_unsel.png"></li>
+            <li v-on:click="changeType($event)"><img src="../../public/img/main/fenlei0101.png"></li>
+            <li v-on:click="changeType($event)"><img src="../../public/img/main/buycar_unsel.png"></li>
+            <li v-on:click="changeType($event)"><img src="../../public/img/main/my_unsel.png"></li>
         </ul>
     </div>
 </template>
 
 <script>
     export default {
-        
+        methods : {
+            changeType : function(event){
+                let liCom = event.currentTarget;
+                liCom.querySelector('img');
+            }
+        }
     }
 </script>
 
