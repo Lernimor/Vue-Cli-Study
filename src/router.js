@@ -7,6 +7,7 @@ import buyCar from "./components/BuyCar.vue";
 import myPage from "./components/MyPage.vue";
 
 import buyCarList from "./components/BuyCarFile/CarList.vue";
+import goodsInfoPage from "./components/GoodsFile/GoodsInfoPage.vue";
 
 Vue.use(VueRouter);
 
@@ -33,6 +34,11 @@ const routes = [
         name : 'MyPage',
         path:"/mypage",
         component: myPage
+    },
+    {
+        name : 'GoodsPage',
+        path:"/goodsinfopage",
+        component: goodsInfoPage
     }
 ]
 

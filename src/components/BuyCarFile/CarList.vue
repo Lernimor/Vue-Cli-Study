@@ -5,37 +5,41 @@
                 <li class="carLi" v-for="info in carInfos" :key="info.id" >
                     <div class="con_row">
                         <ul class="list_row">
-                            <li class="list_index">
+                            <li class="list_index" @click="info.selected = !info.selected">
                                 <input type="checkbox" v-model="info.selected"/>
                             </li>
                             <li class="list_img ">
                                 <img class="goodsImg" :src="require('../../../public/img/buyCar/goods1.jpg')">
                             </li>
-                            <router-link tag="li" class="list_name " to="{path : info.path, query:{id:info.id}}">
-                                <div>
-                                    <span class="g_name g_top">{{info.name}}</span>
-                                    <span class="g_desc g_bottom">这是产品描述，</span>
-                                </div>
+                            <router-link tag="li" class="list_name " to="/goodsinfopage">
+                                <p class="g_top">{{info.name}}</p>
+                                <p class="g_bottom">这是产品描述的阿斯顿撒多的sad撒发所多撒多撒dssdsadsadsadsa</p>
                             </router-link>
                             <li class="list_price">
-                                <div>
-                                    <span class="g_price g_top">单价/元</span>
-                                    <span class="g_num g_bottom">{{info.price}}</span>
-                                </div>
+                                <p class="g_top">单价/元</p>
+                                <p class="g_bottom">{{info.price}}</p>
                             </li>
                         </ul>
                     </div>
                     <div class="list_icon">
-                                <img @click="info.count=info.count+1" 
+                                <img @click="info.count=parseInt(info.count)+1" 
                                     :src="require('../../../public/img/buyCar/add_enable.png')">
-                                <input type="text" v-model="info.count"/>
-                                <img @click="info.count = (info.count > 0 ? info.count-1 : 0)" 
+                                <input type="text" 
+                                        v-model="info.count" 
+                                        :onBlur="
+                                            (info.count == '' 
+                                            || info.count == null 
+                                            || info.count == undefined
+                                            ? info.count = 0 
+                                            : info.count = parseInt(info.count))"/>
+                                <img @click="info.count = (info.count > 0 ? parseInt(info.count)-1 : 0)" 
                                     :src="info.count != 0 ? require('../../../public/img/buyCar/rm_enable.png') 
                                                             : require('../../../public/img/buyCar/rm_disable.png') ">
                     </div>
-                    <div class="del_btn">删除</div>
+                    <div class="del_btn" @click="rmGoods(info.id)">删除</div>
                 </li>
             </ul>
+            <div class="clear"></div>
         </div>
         <div class="total">
             <div class="moneyPanel">
@@ -91,12 +95,22 @@ export default {
     mounted() {
         swipe();
     },
+    methods: {
+        rmGoods : function(id){
+            let value = this.carInfos;
+            for (let i=0; i<value.length; i++){
+                if (value[i].id == id){
+                    this.carInfos.splice(i,i+1);
+                    break;
+                }
+            }
+        }
+    }
 }
 </script>
     
 <style>
     li{
-        line-height: 6em;
         list-style: none;
     }
     .total{
@@ -149,15 +163,13 @@ export default {
         bottom: calc(8em + 6px);
     }
     .carUl>li{
-        border-bottom: 1px solid #fcfcfc;
         position: relative;
-        padding: 5px 0 5px 0
     }
     .con_row{
         width: 100%;
     }
     .list_row{
-        background: #f0f0f0;
+        background: #f8f8f5;
     }
     .list_row>li{
         height: 6em;
@@ -166,9 +178,12 @@ export default {
     }
     .del_btn {
         position: absolute;
-        top: 5px;
+        top: 0;
+        height: 6em;
+        line-height:6em;
         right: -3em;
         text-align: center;
+        vertical-align: middle;
         background: #ffcb20;
         color: #fff;
         width: 3em
@@ -176,44 +191,35 @@ export default {
     .list_index{
         width: 10%;
     }
+    .list_img{
+        width : 25%;
+    }
     .list_name{
-        width: 50%;
+        width: 40%;
     }
     .list_price{
-        width: calc(40% - 5em);
-        text-align: center
+        width: 25% ;
+        text-align: center;
+    }
+    .goodsImg{
+        width: 100%;
     }
     .list_price>div{
        padding-right : 3em;
        text-align: center;
     }
-    span{
+    .total span{
         height: 25px;
         line-height:25px;
     }
-    span.g_top{
-        top:10%;
-        position: absolute;
+    .g_top{
+        text-align: center;
+        margin-top: 5px;
+        font-size:16px;
+        font-weight: bold;
     }
-    span.g_bottom{
-        top:40%;
-        position: absolute;
-    }
-    span.g_name{
-        margin-left : 14px;
-        font-size:20px;
-        font-weight: bold
-    }
-    span.g_desc{
-        margin-left:10px;
-        font-size:12px;
-    }
-
-    span.g_price{
-        font-size:14px;
-        font-family:sans-serif
-    }
-    span.g_num{
+    .g_bottom{
+        margin: 10px 5px 0 5px;
         font-size:12px;
     }
 

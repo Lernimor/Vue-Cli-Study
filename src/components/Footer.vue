@@ -2,22 +2,22 @@
      <div class="footer">
         <ul>
             <router-link to="/" tag="li" replace>
-                <img :src="this.$route.path == '/'? 
+                <img class="footImg" :src="this.$route.path == '/'? 
                         require('../../public/img/main/home_sel.png') : 
                         require('../../public/img/main/home_unsel.png')">
             </router-link>
             <router-link to="/other" tag="li" replace>
-                <img :src="this.$route.path == '/other' ? 
+                <img class="footImg" :src="this.$route.path == '/other' ? 
                         require('../../public/img/main/search_sel.png') : 
                         require('../../public/img/main/search_unsel.png')">
             </router-link>
             <router-link to="/buycar" tag="li" replace>
-                <img :src="this.$route.path == '/buycar' ? 
+                <img class="footImg" :src="this.$route.path == '/buycar' ? 
                         require('../../public/img/main/buycar_sel.png') : 
                         require('../../public/img/main/buycar_unsel.png')">
             </router-link>
             <router-link to="/mypage" tag="li" replace>
-                <img :src="this.$route.path == '/mypage' ? 
+                <img class="footImg" :src="this.$route.path == '/mypage' ? 
                         require('../../public/img/main/my_sel.png') : 
                         require('../../public/img/main/my_unsel.png')">
             </router-link>
