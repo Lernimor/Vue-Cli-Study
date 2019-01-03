@@ -38,6 +38,7 @@
 <style>
     .footer {
         width: 100%;
+        background: #ffcb20;
         position: fixed;
         left: 0;
         bottom: 0;

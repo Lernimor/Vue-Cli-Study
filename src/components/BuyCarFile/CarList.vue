@@ -1,81 +1,172 @@
 <template>
-    <div class="carList">
-        <ul>
-            <li v-for="info in carInfos" :key="info.id" >
-            
-                <div class = "con_row">
-                    <ul class="list_row">
-                        <li class="list_index list_col"><input type="checkbox"/></li>
-                        <li class="list_img list_col"><img ></li>
-                        <router-link tag="li" class="list_name list_col" to="{path : info.path, query:{id:info.id}}">
-                            <div>
-                                <span class="g_name">{{info.name}}</span>
-                                <span class="g_desc">这是产品描述，</span>
-                            </div>
-                        </router-link>
-                        <li class="list_icon list_col">
-                            <img class="goods_btn" 
-                                @click="info.count=info.count+1" 
-                                :src="require('../../../public/img/buyCar/add_enable.png')">
-                            <input type="text" :value="info.count"/>
-                            <img class="goods_btn" 
-                                @click="info.count = (info.count > 0 ? info.count-1 : 0)" 
-                                :src="info.count != 0 ? require('../../../public/img/buyCar/rm_enable.png') 
-                                                        : require('../../../public/img/buyCar/rm_disable.png') ">
-                        </li>
-                    </ul>
-                </div>
-                <div class="btn">删除</div>
-            
-            </li>
-        </ul>
+    <div class="">
+        <div class="carList">
+            <ul class="carUl">
+                <li class="carLi" v-for="info in carInfos" :key="info.id" >
+                    <div class="con_row">
+                        <ul class="list_row">
+                            <li class="list_index">
+                                <input type="checkbox" v-model="info.selected"/>
+                            </li>
+                            <li class="list_img ">
+                                <img class="goodsImg" :src="require('../../../public/img/buyCar/goods1.jpg')">
+                            </li>
+                            <router-link tag="li" class="list_name " to="{path : info.path, query:{id:info.id}}">
+                                <div>
+                                    <span class="g_name g_top">{{info.name}}</span>
+                                    <span class="g_desc g_bottom">这是产品描述，</span>
+                                </div>
+                            </router-link>
+                            <li class="list_price">
+                                <div>
+                                    <span class="g_price g_top">单价/元</span>
+                                    <span class="g_num g_bottom">{{info.price}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="list_icon">
+                                <img @click="info.count=info.count+1" 
+                                    :src="require('../../../public/img/buyCar/add_enable.png')">
+                                <input type="text" v-model="info.count"/>
+                                <img @click="info.count = (info.count > 0 ? info.count-1 : 0)" 
+                                    :src="info.count != 0 ? require('../../../public/img/buyCar/rm_enable.png') 
+                                                            : require('../../../public/img/buyCar/rm_disable.png') ">
+                    </div>
+                    <div class="del_btn">删除</div>
+                </li>
+            </ul>
+        </div>
+        <div class="total">
+            <div class="moneyPanel">
+                <span>合计:</span> <span class="realMoney"> {{totalMoney}}</span> <span>元</span> 
+                <br>
+                <span>实付款:</span> <span class="totalMoney"> {{realMoney}}</span> <span>元</span> 
+           </div>
+           <span class="commitDD" :class="this.totalMoney > 0 ? 'enable' : 'disabled'">提交订单</span>
+        </div>
     </div>
 </template>
 
 <script>
+import swipe from '../Tools/swipe_deletel.js';
 export default {
+    props : ['totalMoney','realMoney'],
     data() {
         return {
-            carInfos : [{id:0,name:'aa',count:5},
-                        {id:1,name:'bb',count:2},
-                        {id:2,name:'cc',count:3}]
+            carInfos : [{id:0,name:'莱泽曼手链',price:192.2,count:5,selected:false},
+                        {id:1,name:'莱泽曼手链',price:11.2,count:2,selected:true},
+                        {id:2,name:'莱泽曼手链',price:1921.2,count:3,selected:false},
+                        {id:3,name:'莱泽曼手链',price:3332.9,count:1,selected:false},
+                        {id:4,name:'莱泽曼手链',price:1221.2,count:3,selected:false},
+                        {id:5,name:'莱泽曼手链',price:4213.7,count:1,selected:true},
+                        {id:6,name:'莱泽曼手链',price:923.1,count:3,selected:true},
+                        {id:7,name:'莱泽曼手链',price:888.0,count:7,selected:true}
+                    ]
         }
+    },
+    computed: {
+        carInfoCount(){
+            return this.carInfos.count;
+        }
+    },
+    watch: {
+        carInfos: {
+            handler(val, newVal) {
+                let value = val;
+                if (newVal && newVal.length > 0)
+                    value = newVal;
+                let money = 0;
+                for (let i=0; i<value.length; i++){
+                    if (!value[i].selected)
+                    continue;
+                    money += (value[i].price * value[i].count);
+                }
+                this.$emit('updateMoney', money);
+            },
+            immediate: true,
+            deep : true
+        }
+    },
+    mounted() {
+        swipe();
     },
 }
 </script>
     
 <style>
-    ul{
-        width: 100%;
-    }
     li{
-        line-height: 5em;
+        line-height: 6em;
         list-style: none;
     }
-    .carList{
+    .total{
         width: 100%;
+        height:3.5em;
+        background: #ffcb20;
+        color: #111111;
+        opacity: 0.85;
+        position: fixed;
+        bottom: calc(4.5em + 6px);
+        vertical-align: middle;
+        z-index: 100;
     }
-    .carList>ul{
+    .commitDD{
+        right: 1em;
+        bottom:25%;
+        position:absolute;
+        color: #ffcb20;
+        font-size: 14px;
+        opacity: 1;
+        text-align: center;
+        width:20%;
+        height: 50%;
+    }
+    span.disabled{
+        background: #a3a3a3;
+    }
+    span.enable{
+        background: #707070;
+    }
+    .total>div{
+        padding-left: 1em;
+        font-size: 14px;
+    }
+    .totalMoney{
+        left: 0;
+        color:black;
+        font-weight: bold;
+    }
+    .realMoney{
+        text-decoration:line-through;
+        color: #6b6b6b
+    }
+    .carList{
+        width: 100%;    
+        margin-bottom: calc(4em - 5px);
+    }
+    .carUl{
         overflow: hidden;
+        bottom: calc(8em + 6px);
     }
-    .carList>ul>li{
+    .carUl>li{
         border-bottom: 1px solid #fcfcfc;
         position: relative;
-        padding: 0 0;
-        -webkit-transform: translateX(0px);
+        padding: 5px 0 5px 0
     }
     .con_row{
         width: 100%;
     }
     .list_row{
-        display:inline-block;
+        background: #f0f0f0;
     }
-    .list_col{
+    .list_row>li{
+        height: 6em;
         display: inline-block;
+        vertical-align: middle
     }
-    .btn {
+    .del_btn {
         position: absolute;
-        top: 0;
+        top: 5px;
         right: -3em;
         text-align: center;
         background: #ffcb20;
@@ -83,74 +174,73 @@ export default {
         width: 3em
     }
     .list_index{
-        width: 8%;
-        text-align: center
-    }
-    input[type="checkbox"] {
-        vertical-align:middle;
-        margin-top:0;
-        background:#dddddd;
-        border:#707070 solid 1px;
-        border-radius: 3px;
-        min-height: 12px;
-        min-width: 12px;
-    }
-    input[type="checkbox"]:checked {
-        background: #3190e8;
-    }
-    input[type=checkbox]:checked::after{
-        content: '';
-        top: 3px;
-        left: 3px;
-        position: absolute;
-        background: transparent;
-        border: #fff solid 2px;
-        border-top: none;
-        border-right: none;
-        height: 6px;
-        width: 10px;
-        -moz-transform: rotate(-45deg);
-        -ms-transform: rotate(-45deg);
-        -webkit-transform: rotate(-45deg); 
-        transform: rotate(-45deg);
-    }
-    .list_img{
-        width: 5em;
+        width: 10%;
     }
     .list_name{
-        font-size:0;
-        width: 42%;
-        vertical-align: middle
+        width: 50%;
+    }
+    .list_price{
+        width: calc(40% - 5em);
+        text-align: center
+    }
+    .list_price>div{
+       padding-right : 3em;
+       text-align: center;
+    }
+    span{
+        height: 25px;
+        line-height:25px;
+    }
+    span.g_top{
+        top:10%;
+        position: absolute;
+    }
+    span.g_bottom{
+        top:40%;
+        position: absolute;
     }
     span.g_name{
         margin-left : 14px;
-        display: block;
-        height: 22px;
-        font-size:18px;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        margin-bottom: 5px
+        font-size:20px;
+        font-weight: bold
     }
     span.g_desc{
-        margin-left : 10px;
-        display: block;
+        margin-left:10px;
         font-size:12px;
     }
+
+    span.g_price{
+        font-size:14px;
+        font-family:sans-serif
+    }
+    span.g_num{
+        font-size:12px;
+    }
+
     .list_icon{
-        width: calc(50% - 5em);
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
         text-align: center;
+        color: #fff;    
+        width: 90px;
+        height: 25px;
+        line-height: 25px;
+        z-index: 99;
     }
     .list_icon>img{
-        height: 24px;
-        margin: 0 0.25em 0 0.25em ;
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        padding: 0;
         vertical-align:middle;
     }
     .list_icon>input{
+        display: inline-block;
         outline:none;
-        width: 30%;
-        height: 22px;
-        line-height:22px;
-        margin-top: 2px;
-        border:1px solid #b3b3b3;
+        width: 30px;
+        height: 16px;
+        border:2px solid #b3b3b3;
         border-radius:10px;
         text-align: center;
         vertical-align:middle;

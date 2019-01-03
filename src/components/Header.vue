@@ -29,7 +29,11 @@
         width : 100%;
         height: 3em;
         text-align: center;
-        border-bottom: 6px double slategrey; 
+        background: #ffcb20;
+        border-bottom: 6px double #707070; 
+        color: #707070;
+        position: fixed;
+        z-index: 100
     } 
     .header>*{
         display:inline-block;
