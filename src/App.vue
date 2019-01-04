@@ -9,6 +9,7 @@
 <script>
 import myHeader from "./components/Header.vue";
 import myFooter from "./components/Footer.vue";
+
 export default {
   components : {
     myHeader,
@@ -42,7 +43,7 @@ export default {
   input[type="checkbox"]:checked {
       background: rgba(194, 194, 194, 0.856);
   }
-  input[type=checkbox]:checked::after{
+  input[type="checkbox"]:checked::after{
       content: '';
       position: absolute;
       top : 2px;

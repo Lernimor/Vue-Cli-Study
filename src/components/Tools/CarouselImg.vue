@@ -1,17 +1,19 @@
 <template>
     <div class="carouselContain">
-        <div class="imgPenel change-size">
+        <v-touch class="imgPenel animation" 
+            v-on:swipeleft="next_pic()" 
+            v-on:swiperight="prev_pic()"
+            :swipe-options="{direction: 'horizontal'}">
             <div class="imgsContaier" v-for="imgUrl in imgUrls" :key="imgUrl">
                 <img class="imgs" :src="imgUrl">
             </div>
-        </div>
+        </v-touch>
         <div class="clear"></div>
         <div class="btns">
             <div v-for="(item,index) in imgUrls" :key="item">
                 <span class="to_picbtn" 
                         :class="index == 0 ? 'on' : ''" 
                         @click="to_pic(index)">
-                    {{index + 1}}
                 </span>
             </div>
         </div>
@@ -42,7 +44,7 @@ export default {
     methods:{
         to_pic:function (index){
             let wrap = document.querySelector(".imgPenel");
-            let w = document.querySelector(".imgs").clientWidth;
+            let w = document.querySelector(".carouselContain").clientWidth;
             let newLeft = 0 - w * index;
             if (newLeft + "px" == wrap.style.left 
                     || (newLeft == 0 && !wrap.style.left)){
@@ -58,7 +60,7 @@ export default {
         },
         next_pic:function () {
             let wrap = document.querySelector(".imgPenel");
-            let w = document.querySelector(".imgs").clientWidth;
+            let w = document.querySelector(".carouselContain").clientWidth;
             let newLeft = parseInt(wrap.offsetLeft) - w;
             if (wrap.style.left == (0 - w * (this.imgUrls.length - 1) + "px")){
                 newLeft = 0;
@@ -68,7 +70,7 @@ export default {
         },
         prev_pic:function() {
             let wrap = document.querySelector(".imgPenel");
-            let w = document.querySelector(".imgs").clientWidth;
+            let w = document.querySelector(".carouselContain").clientWidth;
             let newLeft = parseInt(wrap.offsetLeft) + w;
             if (wrap.style.left == "0px" || wrap.style.left == ""){
                 newLeft = 0 - w * (this.imgUrls.length - 1);
@@ -95,13 +97,16 @@ export default {
             for (let i=0; i<btns.length; i++){
                 btns[i].classList.add('cancelClick');
             }
-            document.querySelector('.arrow_left').classList.add('cancelClick');
+            document.querySelector('.imgPenel').classList.add('cancelClick');
             document.querySelector('.arrow_right').classList.add('cancelClick');
+            document.querySelector('.arrow_left').classList.add('cancelClick');
+
             let transition = this.getTransition();
             let tranListener = function (){
                 for (let i=0; i<btns.length; i++){
                     btns[i].classList.remove('cancelClick');
                 }
+                document.querySelector('.imgPenel').classList.remove('cancelClick');
                 document.querySelector('.arrow_left').classList.remove('cancelClick');
                 document.querySelector('.arrow_right').classList.remove('cancelClick');
                 el.removeEventListener(transition, tranListener, false);
@@ -121,7 +126,6 @@ export default {
         width: 100%;
         height: 40%;
         overflow: hidden;
-        box-shadow: 0 0 5px green;
     }
     .imgPenel{
         position: absolute;
@@ -130,7 +134,7 @@ export default {
         height:100%;
         z-index: 1;
     }
-    .change-size {
+    .animation {
         transition: all 1s;
         animation: all 2s linear 1s 3 normal;
     }
@@ -138,11 +142,13 @@ export default {
         float: left;
         width: 100%;
         height:100%;
+        background: rgba(77, 77, 77, 1);
+        text-align: center;
+        vertical-align: middle;
     }
     .imgPenel .imgs {
-        float: left;
         width: 100%;
-        height:100%;
+        height: auto;
         transform: translate(0,0);
     }
 
@@ -156,28 +162,25 @@ export default {
     }
     .btns div{
          display: inline-block;
-         padding-left: 2px;
-         border-radius: 50%;
+         padding-left: 3px;
          color:white;
     }
     .btns div span{
         display: inline-block;
-        width: 20px;
-        height: 20px;
-        line-height: 20px;
-        border-radius: 50%;
+        width: 10px;
+        height: 5px;
         background: rgba(106, 170, 219,0.5);
         cursor: pointer;
     }
     .btns div span.on{
-        background-color: red;
+        background-color: rgb(252, 86, 86);
     }
 
     .arrow{
         position: absolute;
         width: 40px;
         height : 100%;
-        line-height: 5.5em;
+        line-height: 550%;
         font-size: 34px;
         color: white;
         text-align: center;

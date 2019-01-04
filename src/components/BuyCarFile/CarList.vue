@@ -55,18 +55,21 @@
 <script>
 import swipe from '../Tools/swipe_deletel.js';
 export default {
-    props : ['totalMoney','realMoney'],
     data() {
         return {
-            carInfos : [{id:0,name:'莱泽曼手链',price:192.2,count:5,selected:false},
-                        {id:1,name:'莱泽曼手链',price:11.2,count:2,selected:true},
-                        {id:2,name:'莱泽曼手链',price:1921.2,count:3,selected:false},
-                        {id:3,name:'莱泽曼手链',price:3332.9,count:1,selected:false},
-                        {id:4,name:'莱泽曼手链',price:1221.2,count:3,selected:false},
-                        {id:5,name:'莱泽曼手链',price:4213.7,count:1,selected:true},
-                        {id:6,name:'莱泽曼手链',price:923.1,count:3,selected:true},
-                        {id:7,name:'莱泽曼手链',price:888.0,count:7,selected:true}
-                    ]
+            carInfos : [
+                {id:0,name:'莱泽曼手链',price:192.2,count:5,selected:false},
+                {id:1,name:'莱泽曼手链',price:11.2,count:2,selected:true},
+                {id:2,name:'莱泽曼手链',price:1921.2,count:3,selected:false},
+                {id:3,name:'莱泽曼手链',price:3332.9,count:1,selected:false},
+                {id:4,name:'莱泽曼手链',price:1221.2,count:3,selected:false},
+                {id:5,name:'莱泽曼手链',price:4213.7,count:1,selected:true},
+                {id:6,name:'莱泽曼手链',price:923.1,count:3,selected:true},
+                {id:7,name:'莱泽曼手链',price:888.0,count:7,selected:true}
+            ],
+            totalMoney : 0,
+            discount : 0.9,
+            realMoney : 0
         }
     },
     computed: {
@@ -86,7 +89,7 @@ export default {
                     continue;
                     money += (value[i].price * value[i].count);
                 }
-                this.$emit('updateMoney', money);
+                this.updateMoney(money);
             },
             immediate: true,
             deep : true
@@ -96,6 +99,10 @@ export default {
         swipe();
     },
     methods: {
+        updateMoney(newMoney){
+            this.totalMoney = newMoney.toFixed(2);
+            this.realMoney = (newMoney * this.discount).toFixed(2);
+        },
         rmGoods : function(id){
             let value = this.carInfos;
             for (let i=0; i<value.length; i++){
@@ -239,7 +246,7 @@ export default {
         width: 22px;
         height: 22px;
         padding: 0;
-        vertical-align:middle;
+        vertical-align:bottom;
     }
     .list_icon>input{
         display: inline-block;
@@ -249,7 +256,6 @@ export default {
         border:2px solid #b3b3b3;
         border-radius:10px;
         text-align: center;
-        vertical-align:middle;
     }
 </style>
 

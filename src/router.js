@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 
 import home from "./components/Home.vue";
 import other from "./components/Other.vue";
-import buyCar from "./components/BuyCar.vue";
 import myPage from "./components/MyPage.vue";
 
 import buyCarList from "./components/BuyCarFile/CarList.vue";
@@ -24,11 +23,7 @@ const routes = [
     {
         name : 'BuyCar',
         path:"/buycar",
-        children : [{
-            path : '/',
-            component : buyCarList
-        }],
-        component: buyCar
+        component: buyCarList
     },
     {
         name : 'MyPage',

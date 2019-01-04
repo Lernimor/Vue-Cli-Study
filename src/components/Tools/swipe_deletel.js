@@ -35,6 +35,7 @@ let swipe = function createSwipe_deletel(){
       if (X >= 0) {
         obj.style.WebkitTransform = "translateX(" + 0 + "px)";
       } else if (X < 0) {
+        event.preventDefault();
         var l = Math.abs(X);
         obj.style.WebkitTransform = "translateX(" + -l + "px)";
         if (l > maxWidth) {
@@ -47,6 +48,7 @@ let swipe = function createSwipe_deletel(){
         moveX = event.targetTouches[0].pageX;
         X = moveX - initX;
         if (X >= 0) {
+          event.preventDefault();
           var r = -maxWidth + Math.abs(X);
           obj.style.WebkitTransform = "translateX(" + r + "px)";
           if (r > 0) {
@@ -54,6 +56,7 @@ let swipe = function createSwipe_deletel(){
             obj.style.WebkitTransform = "translateX(" + r + "px)";
           }
         } else { //向左滑动
+          event.preventDefault();
           obj.style.WebkitTransform = "translateX(" + -maxWidth + "px)";
         }
       }
